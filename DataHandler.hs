@@ -1,14 +1,19 @@
--- Platzhaltermodul für spätere JSON-Verarbeitung
-module DataHandler where
+-- Modul zum Laden und Speichern von JSON-Dateien
+module DataHandler
+  ( loadRecords
+  , saveRecords
+  ) where
 
--- Hier kommen später Funktionen für:
--- - Lesen von JSON-Dateien
--- - Schreiben von JSON-Dateien
--- - Filter / Query / Insert / Delete
+import Data.Aeson (decodeFileStrict, encodeFile)
+import Record (Record)
 
--- Benutzerdefinierter Datentyp mit Record-Syntax
-data Record = Record
-  { recordId :: Int      -- eindeutige ID
-  , name     :: String   -- Name des Eintrags
-  , value    :: Int      -- numerischer Wert
-  } deriving (Show, Eq)
+-- Datei lesen → Liste von Records zurückgeben
+-- Wenn Datei leer/fehlt → []
+loadRecords :: FilePath -> IO [Record]
+loadRecords path = do
+    result <- decodeFileStrict path
+    return (maybe [] id result)
+
+-- Liste von Records als JSON speichern
+saveRecords :: FilePath -> [Record] -> IO ()
+saveRecords = encodeFile
