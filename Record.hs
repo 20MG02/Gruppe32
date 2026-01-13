@@ -1,6 +1,12 @@
 -- Definition eines Records
+module Record where
+
+import GHC.Generics (Generic)
+import Data.Aeson   (ToJSON, FromJSON)
+
+-- Datentyp für einen einzelnen Eintrag in der JSON-Datei
 data Record = Record
-  { id    :: Int      -- Feld 'id' vom Typ Int
-  , name  :: String   -- Feld 'name' vom Typ String
-  , value :: Double   -- Feld 'value' vom Typ Double
-  } deriving (Show, Eq)
+  { id    :: Int
+  , name  :: String
+  , value :: Double
+  } deriving (Show, Eq, Generic, ToJSON, FromJSON)
